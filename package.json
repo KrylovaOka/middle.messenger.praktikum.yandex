@@ -1,0 +1,28 @@
+{
+    "name": "messenger--praktikum",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "dev": "parcel src/pages/index.hbs --no-cache",
+        "prebuild": "engine-version",
+        "build": "parcel src/pages/index.hbs",
+        "start": "node server.js"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "engines": {
+        "node": ">=16.14.0"
+    },    
+    "devDependencies": {
+        "@anikin/parcel-transformer-handlebars": "^1.0.9",
+        "@parcel/transformer-sass": "^2.3.2",
+        "engine-version": "^1.0.2",
+        "handlebars-layouts": "^3.1.4",
+        "parcel": "^2.3.2"
+    },
+    "dependencies": {
+        "express": "^4.17.3"
+    }
+}

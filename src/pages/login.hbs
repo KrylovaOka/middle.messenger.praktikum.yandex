@@ -1,0 +1,28 @@
+---
+title: Login | Messenger.Praktikum 
+styles:
+  - ../styles/form.scss    
+submit-btn: Авторизоваться
+inputs:
+  - type: text
+    name: login
+    label: Логин
+  - type: password
+    name: password
+    label: Пароль
+---
+
+{{#extend "default"}}
+    {{#content "main"}}
+        <div class="centered-block__content block-shadow">
+            <form class="form-default">
+                <h1>Вход</h1>
+                {{#each inputs}}
+                {{> input}}
+                {{/each}}
+                {{> submit}}
+                <p><a href="register.hbs">Нет аккаунта?</a></p>
+            </form>
+        </div>
+    {{/content}}
+{{/extend}} 
