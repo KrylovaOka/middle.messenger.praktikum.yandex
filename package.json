@@ -6,7 +6,7 @@
     "scripts": {
         "dev": "parcel src/pages/index.hbs --no-cache",
         "prebuild": "engine-version",
-        "build": "parcel src/pages/index.hbs",
+        "build": "parcel build src/pages/index.hbs",
         "start": "node server.js"
     },
     "keywords": [],
