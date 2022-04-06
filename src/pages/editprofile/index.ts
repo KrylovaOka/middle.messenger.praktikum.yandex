@@ -1,0 +1,1 @@
+export { EditprofilePage as default } from './editprofile';

@@ -1,0 +1,1 @@
+export { EditpasswordPage as default } from './editpassword';
