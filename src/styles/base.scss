@@ -1,0 +1,48 @@
+@import url('fonts.css');
+
+$base-font:         "Ubuntu", sans-serif;
+$base-font-size:    14px;
+$base-color:        #1E1E1E;
+$accent-color:      #F9F144;
+$mark-color:        #E4EDFD;
+$ext-color:         #FBFBFB;
+$note-color:        #999999;
+
+body{
+    font: $base-font-size $base-font;
+    color: $base-color;
+}
+a{
+    color: $base-color;
+}
+.back-link{
+    font-size: 0.8rem;
+    margin-top: 4rem;
+}
+.centered-block__wrapper {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    overflow: auto;  
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: stretch;
+    .centered-block__content {
+        margin: auto;
+        text-align: center;
+    }
+}
+%btn{
+    padding: 0.6rem 5rem;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 0.6rem;
+}
+.accent-btn{
+    @extend %btn;
+    background-color: $accent-color;
+    border-color: $accent-color;
+}
