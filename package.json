@@ -3,9 +3,11 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "dev": "parcel src/pages/index.hbs --no-cache",
+        "copy-img": "cp -vR static ./dist/static",
+        "init": "npm run copy-img",
+        "dev": "npm run init && parcel src/index.html --no-cache",
         "prebuild": "engine-version",
-        "build": "parcel build src/pages/index.hbs",
+        "build": "npm run init && parcel build src/index.html --no-cache",
         "start": "node server.js"
     },
     "keywords": [],
@@ -13,15 +15,16 @@
     "license": "ISC",
     "engines": {
         "node": ">=16.14.0"
-    },    
+    },
     "devDependencies": {
-        "@anikin/parcel-transformer-handlebars": "^1.0.9",
         "@parcel/transformer-sass": "^2.3.2",
         "engine-version": "^1.0.2",
-        "handlebars-layouts": "^3.1.4",
-        "parcel": "^2.3.2"
+        "parcel": "^2.3.2",
+        "typescript": "^4.6.3"
     },
     "dependencies": {
-        "express": "^4.17.3"
+        "express": "^4.17.3",
+        "handlebars": "^4.7.7",
+        "nanoid": "^3.3.2"
     }
 }
