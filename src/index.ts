@@ -18,12 +18,12 @@ import Chat from './components/chat';
 import Error from './components/error';
 import ErrorPage from './components/layouts/errorpage';
 
-registerComponent(Input);
-registerComponent(Button);
-registerComponent(Link);
-registerComponent(Chat);
-registerComponent(Error);
-registerComponent(ErrorPage);
+registerComponent(Input, "Input");
+registerComponent(Button, "Button");
+registerComponent(Link, "Link");
+registerComponent(Chat, "Chat");
+registerComponent(Error, "Error");
+registerComponent(ErrorPage, "ErrorPage");
 
 function rerenderPage(hash: string){
   switch(hash){
