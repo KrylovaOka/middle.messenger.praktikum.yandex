@@ -7,7 +7,7 @@
         "init": "npm run copy-img",
         "dev": "npm run init && parcel src/index.html --no-cache",
         "prebuild": "engine-version",
-        "build": "npm run init && parcel build src/index.html --no-cache",
+        "build": "parcel build src/index.html --no-cache && npm run init",
         "start": "node server.js"
     },
     "targets": {
