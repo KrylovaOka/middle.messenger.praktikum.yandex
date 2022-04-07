@@ -10,6 +10,13 @@
         "build": "npm run init && parcel build src/index.html --no-cache",
         "start": "node server.js"
     },
+    "targets": {
+        "default": {
+            "engines": {
+                "browsers": ">= 50%"
+            }
+        }
+    },
     "keywords": [],
     "author": "",
     "license": "ISC",
@@ -18,8 +25,12 @@
     },
     "devDependencies": {
         "@parcel/transformer-sass": "^2.3.2",
+        "@typescript-eslint/eslint-plugin": "^5.18.0",
+        "@typescript-eslint/parser": "^5.18.0",
         "engine-version": "^1.0.2",
+        "eslint": "^8.12.0",
         "parcel": "^2.3.2",
+        "stylelint": "^14.6.1",
         "typescript": "^4.6.3"
     },
     "dependencies": {

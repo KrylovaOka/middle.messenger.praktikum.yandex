@@ -11,12 +11,6 @@ export default class Validator{
     [prop: string]: any;
     private options: ValidatorOptions;
     
-    private regExps: {[key: string]: RegExp} = {
-        email: /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i,
-        digits: /[0-9]*$/,
-        letters: /[a-z][A-Z]*$/
-    };
-    
     messages: typeMessage = {
        'required': 'Пожалуйста, заполните поле',
        'min': 'Это поле должно содержать не менее %rule% символов',
