@@ -4,8 +4,8 @@ import '../../styles/profile.scss';
 interface ProfileProps {
     userName: string;
     userImage?: string;
-    userData?: Array<Object>;
-    links?:  Array<Object>;
+    userData?: Array<Record<string, unknown>>;
+    links?:  Array<Record<string, unknown>>;
 }
 
 export class ProfilePage extends Block {
@@ -54,13 +54,11 @@ export class ProfilePage extends Block {
             }    
         ]
      }  
-     super(props);
+     super(props as unknown as Record<string, unknown>);
   }
     
 
   render() {
-    const links = this.state.links;
-
     return `
     <div class="centered-block__wrapper">
         <div class="back-column centered">

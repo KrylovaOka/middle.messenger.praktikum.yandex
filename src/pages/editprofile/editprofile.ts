@@ -29,7 +29,7 @@ export class EditprofilePage extends Form {
   }
 
   render() {
-    const data = this.state.userData;
+    const data: Record<string, unknown> = this.state.userData as Record<string, unknown>;
     
     return `
     <div class="centered-block__wrapper">

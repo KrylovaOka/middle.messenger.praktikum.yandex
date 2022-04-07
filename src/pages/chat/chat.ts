@@ -49,8 +49,6 @@ export class ChatPage extends Form {
 
 
   render() {
-    const chats = this.state.chats;
-
     return `
     <div class="centered-block__wrapper">
         <div class="back-column">

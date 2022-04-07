@@ -18,13 +18,13 @@ interface ChatProps {
 }
 
 export class Chat extends Block {
-  constructor({name, image, forRead, active = false, lastMessage = {} as MessageProp, onClick}: ChatProps) {
+  constructor(
+      {name, image, forRead, active = false, lastMessage = {} as MessageProp, onClick}: ChatProps
+    ) {
     super({name, image, forRead, active, lastMessage, events: {click: onClick}});
   }
 
   render() {
-    const active = this.state.active;
-
     return `
     <div class="chat-block {{#if active}}active{{/if}}" id = "${this.id}">
         <div class="chat-block__image">
@@ -33,7 +33,11 @@ export class Chat extends Block {
         <div class="chat-block__message">
             <p class="chat-block__message-title">{{name}}</p>
             <p>
-                <span class="chat-block__message-author">{{#if lastMessage.author}}{{lastMessage.author}}:{{/if}}</span>
+                {{#if lastMessage.author}}
+                <span class="chat-block__message-author">
+                {{lastMessage.author}}:
+                </span>
+                {{/if}}
                 {{lastMessage.text}}
             </p>
         </div>

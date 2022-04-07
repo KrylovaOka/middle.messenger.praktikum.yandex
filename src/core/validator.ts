@@ -3,7 +3,7 @@ type typeMessage = {
 }
 
 interface ValidatorOptions {
-    rules: {[key: string]: boolean | Number };
+    rules: {[key: string]: boolean | number };
     messages?: typeMessage;
 }
 
@@ -30,7 +30,7 @@ export default class Validator{
     }
 
     _createMessage = (message: string, settings: {[key: string] : any}) => {
-        for (var key in settings) {
+        for (const key in settings) {
           message = message.replace('%' + key + '%', settings[key]);
         }
         return message;
@@ -38,15 +38,15 @@ export default class Validator{
 
     _required(value: string){ 
         return value.length > 0;
-    };
+    }
 
-    _min(value: string, param: Number){ 
+    _min(value: string, param: number){ 
         return value.length >= param;
-    };
+    }
 
-    _max(value: string, param: Number){
+    _max(value: string, param: number){
          return value.length <= param; 
-    };
+    }
 
     _lettersdigits(value: string){ 
         return /^[a-zA-Z0-9_-]*$/.test(value);
@@ -65,7 +65,7 @@ export default class Validator{
     }
 
     _email(value: string){
-        return /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(value);
+        return /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i.test(value); /* eslint-disable-line */
     }
 
     _cirillic(value: string){
@@ -86,12 +86,11 @@ export default class Validator{
     }
 
     validate(element: string){
-        let message: string = '';
+        let message = '';
 
-        for (let rule of Object.keys(this.options.rules)) {
-          let param = this.options.rules[rule];  
-          let fn: string  = `_${rule}`;   
-          const self = this;
+        for (const rule of Object.keys(this.options.rules)) {
+          const param = this.options.rules[rule];  
+          const fn  = `_${rule}`;   
 
           if (Validator.prototype.hasOwnProperty(fn) && !(Validator.prototype[fn](element, param))) {
             message = this._createMessage(this.messages[rule], {rule: param, data: element});
@@ -101,4 +100,4 @@ export default class Validator{
 
         return message;
     }
-};
+}

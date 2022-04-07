@@ -12,17 +12,22 @@ interface InputProps {
 }
 
 export class Input extends Block {
-  constructor({onBlur = () => {}, onFocus = () => {}, name, value = '', error = '', label, type = 'text', placeholder}: InputProps) {
+  constructor(
+    {onBlur, onFocus, name, value = '', error = '', label, type = 'text', placeholder}: InputProps
+  ) {
     super({name, label, type, value, error, placeholder, events: {blur: onBlur, focus: onFocus}});
   }
 
   _addEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+    const events: Record<string, () => void> = (this.props).events as Record<string, () => void>;
     if (!events) {
       return;
     }
     Object.entries(events).forEach(([event, listener]) => {
-      this.element!.querySelector(`input`)!.addEventListener(event, listener);
+      const element = (this.element as HTMLElement).querySelector(`input`);
+      if (element !== null) {
+        element.addEventListener(event, listener);
+      }  
     });
   }
 
@@ -32,7 +37,15 @@ export class Input extends Block {
     return `
       <div class="form-group">
         <label for="{{name}}" class="form-label">{{label}}</label>
-        <input type="{{type}}" name="{{name}}" id = "${this.id}" placeholder="{{placeholder}}" blur = "{{onBlur}}" class="form-input" value="${value}">
+        <input 
+          type="{{type}}"
+          name="{{name}}"
+          id = "${this.id}"
+          placeholder="{{placeholder}}"
+          blur = "{{onBlur}}"
+          class="form-input"
+          value="${value}"
+        >
         {{{Error
           text="${error}"
         }}}

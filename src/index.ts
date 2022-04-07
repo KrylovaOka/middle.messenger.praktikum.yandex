@@ -60,7 +60,7 @@ function rerenderPage(hash: string){
       break;  
   } 
   const links = document.getElementsByTagName("a");
-  for (var i = 0; i < links.length; i++) {
+  for (let i = 0; i < links.length; i++) {
     links[i].onclick = function(e){
       rerenderPage((e.target! as HTMLAnchorElement).hash);
     };

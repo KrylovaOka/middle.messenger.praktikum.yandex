@@ -2,13 +2,14 @@ import EventBus from './EventBus';
 import { nanoid } from 'nanoid'
 import Handlebars from 'handlebars';
 
-interface BlockMeta<P = any> {
+type P = Record<string, unknown> | Record<string, () => void>;
+interface BlockMeta{
   props: P;
 }
 
 type Events = Values<typeof Block.EVENTS>;
 
-export default class Block<P = any> {
+export default class Block {
   static EVENTS = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -17,7 +18,7 @@ export default class Block<P = any> {
   } as const;
 
   public id = nanoid(6);
-  public rName: string = '';
+  public rName = '';
   private readonly _meta: BlockMeta;
 
   protected _element: Nullable<HTMLElement> = null;
@@ -26,10 +27,10 @@ export default class Block<P = any> {
 
   eventBus: () => EventBus<Events>;
 
-  protected state: any = {};
+  protected state: P = {};
   protected refs: {[key: string]: HTMLElement} = {};
 
-  public constructor(props: any = {}) {
+  public constructor(props: P = {}) {
     const eventBus = new EventBus<Events>();
 
     this._meta = {
@@ -60,7 +61,7 @@ export default class Block<P = any> {
     this._element = this._createDocumentElement('div');
   }
 
-  protected getStateFromProps(props: any): void {
+  protected getStateFromProps(props: P): void {
     this.state = props;
   }
 
@@ -74,6 +75,7 @@ export default class Block<P = any> {
   }
 
   componentDidMount(props: P) {
+    //todo
   }
 
   _componentDidUpdate(oldProps: P, newProps: P) {
@@ -96,7 +98,7 @@ export default class Block<P = any> {
     Object.assign(this.props as unknown as object, nextProps);
   };
 
-  setState = (nextState: any) => {
+  setState = (nextState: P) => {
     if (!nextState) {
       return;
     }
@@ -112,9 +114,11 @@ export default class Block<P = any> {
     const fragment = this._compile();
 
     this._removeEvents();
-    const newElement = fragment.firstElementChild!;
+    const newElement = fragment.firstElementChild;
 
-    this._element!.replaceWith(newElement);
+    if (newElement !== null && this._element !== null){
+      this._element.replaceWith(newElement);
+    }  
 
     this._element = newElement as HTMLElement;
 
@@ -123,9 +127,9 @@ export default class Block<P = any> {
 
   protected render(): string {
     return '';
-  };
+  }
 
-  getContent(): HTMLElement {
+  getContent(): HTMLElement | null {
     if (this.element?.parentNode?.nodeType === Node.DOCUMENT_FRAGMENT_NODE) {
       setTimeout(() => {
         if (this.element?.parentNode?.nodeType !==  Node.DOCUMENT_FRAGMENT_NODE ) {
@@ -134,18 +138,18 @@ export default class Block<P = any> {
       }, 100)
     }
 
-    return this.element!;
+    return this.element;
   }
 
-  _makePropsProxy(props: any): any {
+  _makePropsProxy(props: P) {
     const self = this;
 
-    return new Proxy(props as unknown as object, {
-      get(target: Record<string, unknown>, prop: string) {
+    return new Proxy(props, {
+      get(target: P, prop: string) {
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      set(target: Record<string, unknown>, prop: string, value: unknown) {
+      set(target: P, prop: string, value: unknown) {
         target[prop] = value;
 
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, {...target}, target);
@@ -162,26 +166,30 @@ export default class Block<P = any> {
   }
 
   _removeEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+    const events: Record<string, () => void> = (this.props as P).events as Record<string, () => void>;
 
     if (!events || !this._element) {
       return;
     }
 
     Object.entries(events).forEach(([event, listener]) => {
-      this._element!.removeEventListener(event, listener);
+      if (this._element !== null) {
+        this._element.removeEventListener(event, listener);
+      }  
     });
   }
 
   _addEvents() {
-    const events: Record<string, () => void> = (this.props as any).events;
+    const events: Record<string, () => void> = (this.props as P).events as Record<string, () => void>;
 
     if (!events) {
       return;
     }
 
     Object.entries(events).forEach(([event, listener]) => {
-      this._element!.addEventListener(event, listener);
+      if (this._element !== null) {
+        this._element.addEventListener(event, listener);
+      }  
     });
   }
 
@@ -197,30 +205,46 @@ export default class Block<P = any> {
       if (!stub) {
         return;
       }
-
-      stub.replaceWith(component.getContent());
+      
+      const newContent = component.getContent();
+      if (newContent !== null) {
+        stub.replaceWith(newContent);
+      }   
     });
 
     return fragment.content;
   }
 
-  updateChild(child: Block, nextState: object){
+  updateChild(child: Block, nextState: P){
     child.setState(nextState);
-    this.refs[child.rName] = child.getContent();
+    
+    const newContent = child.getContent();
+
+    if (newContent !== null) {
+      this.refs[child.rName] = newContent;
+    }  
   }
 
-  updateComponentChild(nextState: object){
-    for(let id in this.children){
+  updateComponentChild(nextState: P){
+    for(const id in this.children){
       const child = this.children[id];
       this.updateChild(child, nextState)
     }
   }
 
   show() {
-    this.getContent().style.display = 'block';
+    const content = this.getContent();
+
+    if (content != null) {
+      content.style.display = 'block';
+    }  
   }
 
   hide() {
-    this.getContent().style.display = 'none';
+    const content = this.getContent();
+
+    if (content != null) {
+      content.style.display = 'none';
+    }  
   }
 }

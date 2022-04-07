@@ -27,15 +27,15 @@ export class Form extends Block {
     return false;
   }
 
-  protected getStateFromProps(props?: any) {
-    this.state = props;
+  protected getStateFromProps(props?: Record<string, unknown>) {
+    Object.assign(this.state, props);
     
     const extState = {
       onSubmit: () => {
         const formData: {[key: string]: string} = {};
         
         let isValidForm = true;
-        for (let ref in this.refs){
+        for (const ref in this.refs){
           const element = this.refs[ref].querySelector(`input`) as HTMLInputElement; 
           if(element !== null){
             if (!this.validateChild(element)) {
@@ -43,7 +43,7 @@ export class Form extends Block {
             }
             formData[ref] = element.value;
           }
-        };
+        }
 
         if (isValidForm) {
           console.log('action/login', formData);
