@@ -1,0 +1,57 @@
+---
+title: Profile | Messenger.Praktikum  
+styles:
+  - ../styles/profile.scss
+userData:
+  - label: Почта
+    data:  ivanov@yandex.ru  
+  - label: Логин
+    data:  IvanovIvan  
+  - label: Имя
+    data:  Иван  
+  - label: Фамилия
+    data:  Иванов  
+  - label: Имя в чате
+    data:  Ваня  
+  - label: Телефон
+    data:  +7(921)555-55-55 
+userName:
+  - Ваня  
+userImage:
+  - ../../static/images/no-foto.png     
+links:
+  - href: editprofile.hbs
+    text: Изменить данные     
+  - href: editpassword.hbs
+    text: Изменить пароль     
+  - href: #
+    text: Выйти     
+---
+
+{{#extend "default"}}
+    {{#content "main"}}
+    <div class="back-column centered">
+        <a href="index.hbs" class="back-btn"></a>
+    </div>
+    <div class="centered full-block">
+        <div class="full-block__wrapper">
+            <div class="avatar-block">
+                <img src="{{userImage}}">
+                <a href="#" class="avatar-block__link">Поменять аватар</a>
+            </div>
+            <h2>{{userName}}</h2>
+            <div class="user-info">
+            {{#each userData}}
+                <div class="user-info__block">
+                    <dt class="user-info__label">{{label}}</dt>
+                    <dd class="user-info__data">{{data}}</dd>
+                </div>    
+            {{/each}}    
+            </div>
+            {{#each links}}    
+            <p><a href="{{href}}">{{text}}</a></p>
+            {{/each}}    
+        </div>    
+    </div>
+    {{/content}}
+{{/extend}} 

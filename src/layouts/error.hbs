@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>  
+<head>  
+    <meta charset="utf-8" />
+    
+    {{#block "title"}}
+    <title>{{title}}</title>
+    {{/block}}
+
+    {{> basestyle}}
+    <link href="../styles/errorpage.scss" rel="stylesheet" />
+</head>  
+<body>
+    <div class="centered-block__wrapper accent-bg">
+        <div class="centered-block__content">
+            {{#block "main"}}
+            {{/block}}
+            <p class="back-link"><a href="index.hbs">Назад к чатам</a></p>
+        <div class="centered-block">
+    </div>
+</body>  
+</html>  
