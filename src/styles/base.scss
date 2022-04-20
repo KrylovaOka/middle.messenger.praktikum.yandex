@@ -1,21 +1,15 @@
-@import url('fonts.css');
+@use 'settings' as s;
 
-$base-font:         "Ubuntu", sans-serif;
-$base-font-size:    14px;
-$base-color:        #1E1E1E;
-$accent-color:      #F9F144;
-$mark-color:        #E4EDFD;
-$ext-color:         #FBFBFB;
-$note-color:        #999999;
+@import url('reset.scss');
 
-body{
-    font: $base-font-size $base-font;
-    color: $base-color;
+body {
+    font: s.$base-font-size s.$base-font;
+    color: s.$base-color;
 }
-a{
-    color: $base-color;
+a {
+    color: s.$base-color;
 }
-.back-link{
+.back-link {
     font-size: 0.8rem;
     margin-top: 4rem;
 }
@@ -35,14 +29,14 @@ a{
         text-align: center;
     }
 }
-%btn{
+%btn {
     padding: 0.6rem 5rem;
     border-width: 1px;
     border-style: solid;
     border-radius: 0.6rem;
 }
-.accent-btn{
+.accent-btn {
     @extend %btn;
-    background-color: $accent-color;
-    border-color: $accent-color;
+    background-color: s.$accent-color;
+    border-color: s.$accent-color;
 }

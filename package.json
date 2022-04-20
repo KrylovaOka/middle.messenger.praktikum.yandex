@@ -3,25 +3,40 @@
     "version": "1.0.0",
     "description": "",
     "scripts": {
-        "dev": "parcel src/pages/index.hbs --no-cache",
+        "lint": "eslint . --fix",
+        "copy-img": "cp -vR static ./dist/static",
+        "init": "npm run copy-img",
+        "dev": "parcel src/index.html --no-cache && npm run init",
         "prebuild": "engine-version",
-        "build": "parcel build src/pages/index.hbs",
+        "build": "parcel build src/index.html --no-cache && npm run init",
         "start": "node server.js"
+    },
+    "targets": {
+        "default": {
+            "engines": {
+                "browsers": ">= 5%"
+            }
+        }
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "engines": {
         "node": ">=16.14.0"
-    },    
+    },
     "devDependencies": {
-        "@anikin/parcel-transformer-handlebars": "^1.0.9",
         "@parcel/transformer-sass": "^2.3.2",
+        "@typescript-eslint/eslint-plugin": "^5.18.0",
+        "@typescript-eslint/parser": "^5.18.0",
         "engine-version": "^1.0.2",
-        "handlebars-layouts": "^3.1.4",
-        "parcel": "^2.3.2"
+        "eslint": "^8.12.0",
+        "parcel": "^2.3.2",
+        "stylelint": "^14.6.1",
+        "typescript": "^4.6.3"
     },
     "dependencies": {
-        "express": "^4.17.3"
+        "express": "^4.17.3",
+        "handlebars": "^4.7.7",
+        "nanoid": "^3.3.2"
     }
 }

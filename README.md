@@ -1,7 +1,3 @@
-PR Sprint 2
-https://github.com/KrylovaOka/middle.messenger.praktikum.yandex/pull/2
-
-
 Описание
 
 Учебный проект Яндекс.Практикум. 
