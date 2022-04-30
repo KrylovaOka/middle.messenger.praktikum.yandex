@@ -59,6 +59,9 @@ p  {
     .avatar-block__link:hover {
         opacity: 1;
     }
+    .avatar-img {
+        border-radius: 50%;
+    }
 }
 .user-info {
     margin: 3rem 0;

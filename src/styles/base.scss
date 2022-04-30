@@ -34,9 +34,26 @@ a {
     border-width: 1px;
     border-style: solid;
     border-radius: 0.6rem;
+    cursor: pointer;
 }
 .accent-btn {
     @extend %btn;
     background-color: s.$accent-color;
     border-color: s.$accent-color;
+}
+.link-btn {
+    border: none; 
+    background: none;
+    cursor: pointer;
+    text-decoration: underline;
+}
+.error{
+    color: s.$error-color;
+}
+.text-center{
+    text-align: center;
+}
+.note{
+    color: #999999;
+    font-size: 0.8rem;
 }

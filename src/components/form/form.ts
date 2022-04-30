@@ -7,7 +7,10 @@ type validatorType = {
 }
 
 export class Form extends Block {
+  public static componentName = 'Form';
+
   validator: validatorType = {};
+  submitHandler?: (formObject: any) => void;
 
   validateChild(element: HTMLInputElement): boolean {
     const value = element.value;
@@ -32,21 +35,33 @@ export class Form extends Block {
     
     const extState = {
       onSubmit: () => {
-        const formData: {[key: string]: string} = {};
-        
+        const formJsonData: {[key: string]: string} = {};
+        let formData = new FormData();      
         let isValidForm = true;
+        let  files:  FileList | null = null;
+
         for (const ref in this.refs){
           const element = this.refs[ref].querySelector(`input`) as HTMLInputElement; 
           if(element !== null){
             if (!this.validateChild(element)) {
               isValidForm = false;
             }
-            formData[ref] = element.value;
+            files = element.files;
+            if (!files?.length) {
+              formJsonData[ref] = element.value;
+            } else {
+              formData.append(ref, files[0]);
+            }
           }
         }
 
-        if (isValidForm) {
-          console.log('action/login', formData);
+        if (isValidForm && this.submitHandler !== undefined) {
+          if ( files ) {
+            this.submitHandler(formData);
+          } else {
+            this.submitHandler(JSON.stringify(formJsonData));
+          }
+          console.log('action/login', formJsonData);
         }  
       },
       onBlur: (e: InputEvent) => {

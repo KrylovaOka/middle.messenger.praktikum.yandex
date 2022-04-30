@@ -1,5 +1,7 @@
 import Form from '../../components/form';
 import Validator from '../../core/validator';
+import { withStore } from '../../utils';
+import { create } from '../../services/user';
 
 export class RegisterPage extends Form {
   validator = {
@@ -7,16 +9,24 @@ export class RegisterPage extends Form {
     password: new Validator({rules: {'required': true, 'min': 8, 'max': 40, 'capitalizexist': true, 'digitexist': true}}),
     email: new Validator({rules: {'required': true, 'email': true}}),
     first_name: new Validator({rules: {'required': true, 'cirillic': true, 'capitalizfirst': true}}),
-    last_name: new Validator({rules: {'required': true, 'cirillic': true, 'capitalizfirst': true}}),
+    second_name: new Validator({rules: {'required': true, 'cirillic': true, 'capitalizfirst': true}}),
     phone: new Validator({rules: {'phone': true}}),
   }
+
+  submitHandler = function(formObject: any){
+    window.store.dispatch(create, formObject);
+  }; 
 
   render() {
     return `
     <div class="centered-block__wrapper">
+      {{#if store.state.isLoading}}
       <div class="centered-block__content block-shadow">
         <form class="form-default">
           <h1>Регистрация</h1>
+          {{#if store.state.formError}}
+          <p class="error">{{store.state.formError}}</p>
+          {{/if}}
           {{{Input
             name="email"
             label="Почта"
@@ -42,9 +52,9 @@ export class RegisterPage extends Form {
             onFocus=onFocus
           }}}
           {{{Input
-            name="last_name"
+            name="second_name"
             label="Фамилия"
-            ref="last_name"
+            ref="second_name"
             type="text"
             onBlur=onBlur
             onFocus=onFocus
@@ -77,10 +87,18 @@ export class RegisterPage extends Form {
             text="Зарегистрироваться"
             onClick=onSubmit
           }}}
-          <p><a href="#login">Войти</a></p>
+          {{{Link
+            to="/login"
+            text="Войти"
+          }}}
         </form>
       </div>
+      {{else}}
+      <div>loadind...</div>
+      {{/if}}  
     </div>     
     `;
   }
 }
+
+export default withStore(RegisterPage);

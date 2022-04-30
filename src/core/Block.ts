@@ -2,7 +2,6 @@ import EventBus from './EventBus';
 import { nanoid } from 'nanoid'
 import Handlebars from 'handlebars';
 
-type P = Record<string, unknown> | Record<string, () => void>;
 interface BlockMeta{
   props: P;
 }
@@ -30,6 +29,8 @@ export default class Block {
   protected state: P = {};
   protected refs: {[key: string]: HTMLElement} = {};
 
+  public static componentName?: string;
+
   public constructor(props: P = {}) {
     const eventBus = new EventBus<Events>();
 
@@ -45,7 +46,7 @@ export default class Block {
     this.eventBus = () => eventBus;
 
     this._registerEvents(eventBus);
-
+  
     eventBus.emit(Block.EVENTS.INIT, this.props);
   }
 
@@ -95,7 +96,7 @@ export default class Block {
       return;
     }
 
-    Object.assign(this.props as unknown as object, nextProps);
+    Object.assign(this.props, nextProps);
   };
 
   setState = (nextState: P) => {
@@ -232,19 +233,7 @@ export default class Block {
     }
   }
 
-  show() {
-    const content = this.getContent();
-
-    if (content != null) {
-      content.style.display = 'block';
-    }  
-  }
-
   hide() {
-    const content = this.getContent();
-
-    if (content != null) {
-      content.style.display = 'none';
-    }  
+    (this.element as HTMLElement).remove()
   }
 }

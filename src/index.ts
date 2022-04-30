@@ -1,72 +1,67 @@
 import './styles/base.scss';
 
-import { renderPage, registerComponent }  from './core';
+import { registerComponent, Store, Router }  from './core';
+//import { getScreenComponent, Screens } from './utils';
+import { defaultState } from './store';
+import { initApp } from './services/initApp';
+
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import ProfilePage from './pages/profile';
 import EditprofilePage from './pages/editprofile';
 import EditpasswordPage from './pages/editpassword';
+import EditavatarPage from './pages/editavatar';
 import ChatPage from './pages/chat';
-import Page404 from './pages/page404';
+import CreatechatPage from './pages/createchat';
+import EditchatPage from './pages/editchat';
+import NotFound from './pages/page404';
 import Page500 from './pages/page500';
 import TempPage from './pages/temp';
 
-import Input from './components/input';
-import Link from './components/link';
-import Button from './components/button';
-import Chat from './components/chat';
-import Error from './components/error';
-import ErrorPage from './components/layouts/errorpage';
+import * as components from './components';
 
-registerComponent(Input, "Input");
-registerComponent(Button, "Button");
-registerComponent(Link, "Link");
-registerComponent(Chat, "Chat");
-registerComponent(Error, "Error");
-registerComponent(ErrorPage, "ErrorPage");
+Object.values(components).forEach((Component: any) => {
+  registerComponent(Component);
+});
+/*
+import * as pages from './pages';
 
-function rerenderPage(hash: string){
-  switch(hash){
-    case '#': 
-    case '': 
-      renderPage(TempPage);
-      break;
-    case '#login': 
-      renderPage(LoginPage);
-      break;
-    case '#register': 
-      renderPage(RegisterPage);
-      break;
-    case '#profile': 
-      renderPage(ProfilePage);
-      break;
-      case '#editprofile': 
-      renderPage(EditprofilePage);
-      break;
-      case '#editpassword': 
-      renderPage(EditpasswordPage);
-      break;
-    case '#chat': 
-      renderPage(ChatPage);
-      break;
-    case '#err404': 
-      renderPage(Page404);
-      break;  
-    case '#err500': 
-      renderPage(Page500);
-      break;  
-    default:
-      renderPage(Page404);
-      break;  
-  } 
-  const links = document.getElementsByTagName("a");
-  for (let i = 0; i < links.length; i++) {
-    links[i].onclick = function(e){
-      rerenderPage((e.target! as HTMLAnchorElement).hash);
-    };
+Object.values(pages).forEach((Page: any) => {
+  console.log(Page);
+});
+*/
+
+declare global {
+  interface Window {
+    store: Store<AppState>;
+    router: Router;
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  rerenderPage(document.location.hash);
+  const store = new Store<AppState>(defaultState);
+  const router = new Router();
+
+  window.router = router;
+  window.store = store;
+
+  router
+  .use('/', ChatPage, {})
+  .use('/login', LoginPage, {})
+  .use('/profile', ProfilePage, {})
+  .use('/register', RegisterPage, {})
+  .use('/profile/edit', EditprofilePage, {})
+  .use('/profile/editpassword', EditpasswordPage, {})
+  .use('/profile/editavatar', EditavatarPage, {})
+  .use('/chat', ChatPage, {})
+  .use('/chat/add', CreatechatPage, {})
+  .use('/chat/edit', EditchatPage, {})
+  .use('/error', Page500, {})
+  .use('*', NotFound, {})
+  .start();
+
+  setTimeout(() => {
+    window.store.dispatch(initApp);
+  }, 100);
+
 });

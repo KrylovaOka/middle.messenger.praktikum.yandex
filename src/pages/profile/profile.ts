@@ -1,95 +1,103 @@
 import Block from '../../core/Block';
+import { withStore, withRouter } from '../../utils';
+import { logout } from '../../services/auth';
 import '../../styles/profile.scss';
 
-interface ProfileProps {
-    userName: string;
-    userImage?: string;
-    userData?: Array<Record<string, unknown>>;
-    links?:  Array<Record<string, unknown>>;
-}
-
 export class ProfilePage extends Block {
-  constructor() {
-     const props: ProfileProps = {
-        userName: "Ваня", 
-        userImage: "./static/images/no-foto.png",
-        userData: [
-            {
-              label: "Почта",
-              data: "ivanov@yandex.ru"      
-            },
-            {
-                label: "Логин",
-                data: "IvanovIvan"
-            },      
-            {
-                label: "Имя",
-                data:  "Иван"
-            },
-            {      
-                label: "Фамилия",
-                data:  "Иванов"  
-            },
-            {    
-                label: "Имя в чате",
-                data:  "Ваня"
-            },
-            {      
-                label: "Телефон",
-                data:  "+7(921)555-55-55"   
-            }              
-        ],
+  constructor(props: P) {
+    super({
+        ...props,
         links: [
             {
-                href: "#editprofile",
+                href: "/profile/edit",
                 text: "Изменить данные"     
             },
             {    
-                href: "#editpassword",
+                href: "/profile/editpassword",
                 text: "Изменить пароль"     
-            },
-            {    
-                href: "#",
-                text: "Выйти"    
             }    
-        ]
-     }  
-     super(props as unknown as Record<string, unknown>);
+        ],
+        onLogout: () => window.store.dispatch(logout)
+     });
   }
     
+  componentDidUpdate(oldProps: P, newProps: P): boolean {
+    const store: any = this.state.store;
+
+    if ( store.isLoading && !store.user ) {
+      window.router.go('/login');
+      return false;
+    }
+
+    return true;
+  }
 
   render() {
     return `
     <div class="centered-block__wrapper">
+        {{#if store.isLoading}}
         <div class="back-column centered">
-            <a href="#" class="back-btn"></a>
+            {{{Link
+                to="/chat"
+                class="back-btn"
+            }}}
         </div>
         <div class="centered full-block">
             <div class="full-block__wrapper">
                 <div class="avatar-block">
-                    <img src="{{userImage}}">
-                    <a href="#" class="avatar-block__link">Поменять аватар</a>
+                    <img class="avatar-img" src="{{store.user.avatar}}">
+                    {{{Link
+                        to="/profile/editavatar"
+                        class="avatar-block__link"
+                        text="Поменять аватар"
+                    }}}
                 </div>
-                <h2>{{userName}}</h2>
+                <h2>{{store.user.firstName}}</h2>
                 <div class="user-info">
-                {{#each userData}}
                     <div class="user-info__block">
-                        <dt class="user-info__label">{{label}}</dt>
-                        <dd class="user-info__data">{{data}}</dd>
+                        <dt class="user-info__label">Почта</dt>
+                        <dd class="user-info__data">{{store.user.email}}</dd>
                     </div>    
-                {{/each}}    
+                    <div class="user-info__block">
+                        <dt class="user-info__label">Логин</dt>
+                        <dd class="user-info__data">{{store.user.login}}</dd>
+                    </div>    
+                    <div class="user-info__block">
+                        <dt class="user-info__label">Имя</dt>
+                        <dd class="user-info__data">{{store.user.firstName}}</dd>
+                    </div>    
+                    <div class="user-info__block">
+                        <dt class="user-info__label">Фамилия</dt>
+                        <dd class="user-info__data">{{store.user.lastName}}</dd>
+                    </div>    
+                    <div class="user-info__block">
+                        <dt class="user-info__label">Имя в чате</dt>
+                        <dd class="user-info__data">{{store.user.displayName}}</dd>
+                    </div>    
+                    <div class="user-info__block">
+                        <dt class="user-info__label">Телефон</dt>
+                        <dd class="user-info__data">{{store.user.phone}}</dd>
+                    </div>    
                 </div>
                 {{#each links}}  
-                <p>
                 {{{Link
                     text=this.text
-                    to=href 
+                    to=href
                 }}}
-                </p>
                 {{/each}}
+                {{{Button 
+                    text="Выйти"
+                    buttonClass="link-btn"
+                    onClick=onLogout
+                }}}
             </div>    
         </div>
+        {{else}}
+        <div>loadind...</div>
+        {{/if}}
     </div>
     `;
   }
 }
+
+export default withRouter(withStore(ProfilePage));

@@ -1,3 +1,5 @@
+import { queryStringify } from "../utils/helpers";
+
 const METHODS = {
   GET: 'GET',
   PUT: 'PUT',
@@ -5,22 +7,15 @@ const METHODS = {
   DELETE: 'DELETE',
 };
 
-function queryStringify(data: {[key: string]: any}) {
-  let result = '';
-  if (typeof data == 'object') {
-    result = Object.keys(data).map(key => key + '=' + data[key]).join('&');
-  }  
-  return result;
-}
 
 type OptionsProp = {
     headers?: {[key: string]: string},
     method?: string,
     timeout?: number,
-    data?: {[key: string]: any}
+    data?: any,
+    includeCredentials?: boolean
 }
-
-class HTTPTransport {
+export default class HTTPTransport {
     get = (url: string, options: OptionsProp = {}) => {
       url = `${url}?${queryStringify(options.data!)}`;     
       return this.request(url, {...options, method: METHODS.GET}, options.timeout);
@@ -36,13 +31,18 @@ class HTTPTransport {
     };
 
 
-    request = (url: string, options: OptionsProp = {method: METHODS.GET}, timeout = 5000) => {
-      const {method, headers = {}, data} = options;
+    request = (url: string, options: OptionsProp = {method: METHODS.GET, includeCredentials: true}, timeout = 5000) => {
+      const {method, headers = {}, data, includeCredentials} = options;
       return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
-        xhr.open(method!, url);
+
+        xhr.open(method!, `${process.env.API_ENDPOINT}/${url}`);
+
         xhr.timeout = timeout;
-       
+
+        xhr.withCredentials = true;
+
+      
         xhr.onload = function() {
           resolve(xhr);
         };
@@ -58,8 +58,19 @@ class HTTPTransport {
         if (method === METHODS.GET || !data) {
           xhr.send();
         } else {
-          xhr.send(JSON.stringify(data));
+          xhr.send(data);
         }
+      }).then((response: any) => {
+        let result;
+        try {
+          result = JSON.parse(response.response);
+        } catch {
+          result = response.response
+        }
+        return result;
+      })
+      .then((data) => {
+        return data as unknown as ResponseData;
       });
     };
 }

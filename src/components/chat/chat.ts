@@ -9,6 +9,7 @@ type MessageProp = {
 }
 
 interface ChatProps {
+    id: number;
     name: string;
     image?: string;
     forRead?: number;
@@ -18,15 +19,17 @@ interface ChatProps {
 }
 
 export class Chat extends Block {
-  constructor(
-      {name, image, forRead, active = false, lastMessage = {} as MessageProp, onClick}: ChatProps
+    public static componentName = 'Chat';
+    
+    constructor(
+      {id, name, image, forRead, active = false, lastMessage = {} as MessageProp, onClick}: ChatProps
     ) {
-    super({name, image, forRead, active, lastMessage, events: {click: onClick}});
+    super({id, name, image, forRead, active, lastMessage, events: {click: onClick}});
   }
 
   render() {
     return `
-    <div class="chat-block {{#if active}}active{{/if}}" id = "${this.id}">
+    <div class="chat-block {{#if active}}active{{/if}}" id = "${this.id}" data-id = {{id}}>
         <div class="chat-block__image">
             {{#if image}}<img src="{{image}}">{{/if}}
         </div>
@@ -35,7 +38,7 @@ export class Chat extends Block {
             <p>
                 {{#if lastMessage.author}}
                 <span class="chat-block__message-author">
-                {{lastMessage.author}}:
+                {{lastMessage.author.displayName}}:
                 </span>
                 {{/if}}
                 {{lastMessage.text}}

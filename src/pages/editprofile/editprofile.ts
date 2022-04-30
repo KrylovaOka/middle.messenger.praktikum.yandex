@@ -1,50 +1,57 @@
 import Form from '../../components/form';
 import Validator from '../../core/validator';
+import { withStore } from '../../utils';
+import { edit } from '../../services/user';
 
 import '../../styles/profile.scss';
 
 export class EditprofilePage extends Form {
-  constructor() {
-    const props = {
-      userImage: "./static/images/no-foto.png",
-      userData: {
-        email:        "ivanov@yandex.ru",      
-        login:        "IvanovIvan",      
-        first_name:   "Иван",
-        last_name:    "Иванов",
-        diaplay_name: "Ваня",
-        phone:        "+7(921)555-55-55"
-      }
-    }
-    super(props);
-  }
-
   validator = {
     login: new Validator({rules: {'required': true, 'min': 3, 'max': 20, 'lettersdigits': true}}),
     password: new Validator({rules: {'required': true, 'min': 8, 'max': 40, 'capitalizexist': true, 'digitexist': true}}),
     email: new Validator({rules: {'required': true, 'email': true}}),
     first_name: new Validator({rules: {'required': true, 'cirillic': true, 'capitalizfirst': true}}),
-    last_name: new Validator({rules: {'required': true, 'cirillic': true, 'capitalizfirst': true}}),
+    second_name: new Validator({rules: {'required': true, 'cirillic': true, 'capitalizfirst': true}}),
     phone: new Validator({rules: {'phone': true}}),
   }
 
+  submitHandler = function(formObject: any){
+    window.store.dispatch(edit, formObject);
+  }; 
+
   render() {
-    const data: Record<string, unknown> = this.state.userData as Record<string, unknown>;
-    
+    let userData: User  = {
+      login: '',
+      email: '', 
+      firstName: '',
+      lastName:  '',
+      displayName: '',
+      phone: ''
+    };
+    if ( this.state.store && (this.state.store as AppState).isLoading ) {
+      userData = (this.state.store as AppState).user as User;
+    }   
+   
     return `
     <div class="centered-block__wrapper">
+      {{#if store.state.isLoading}}
         <div class="back-column centered">
-            <a href="#profile" class="back-btn"></a>
+          {{{Link
+            to="/profile"
+            class="back-btn"
+          }}}    
         </div>
         <div class="centered full-block">
             <div class="full-block__wrapper">
                 <div class="avatar-block">
-                    <img src="{{{userImage}}}">
-                    <a href="#" class="avatar-block__link">Поменять аватар</a>
+                    <img class="avatar-img" src="{{store.state.user.avatar}}">
                 </div>
                 <form class="form-default form-inline">
+                {{#if store.state.formError}}
+                <p class="error text-center">{{store.state.formError}}</p>
+                {{/if}}
                 {{{Input
-                    value="${data.email}" 
+                    value="${userData.email}" 
                     name="email"
                     label="Почта"
                     ref="email"
@@ -53,7 +60,7 @@ export class EditprofilePage extends Form {
                     onFocus=onFocus
                 }}}
                 {{{Input
-                    value="${data.login}" 
+                    value="${userData.login}" 
                     name="login"
                     label="Логин"
                     ref="login"
@@ -62,7 +69,7 @@ export class EditprofilePage extends Form {
                     onBlur=onBlur
                 }}}
                 {{{Input
-                    value="${data.first_name}" 
+                    value="${userData.firstName}" 
                     name="first_name"
                     label="Имя"
                     ref="first_name"
@@ -71,16 +78,16 @@ export class EditprofilePage extends Form {
                     onBlur=onBlur
                 }}}
                 {{{Input
-                    value="${data.last_name}" 
-                    name="last_name"
+                    value="${userData.lastName}" 
+                    name="second_name"
                     label="Фамилия"
-                    ref="last_name"
+                    ref="second_name"
                     type="text"
                     onFocus=onFocus
                     onBlur=onBlur
                 }}} 
                 {{{Input
-                    value="${data.diaplay_name}" 
+                    value="${userData.displayName}" 
                     name="display_name"
                     label="Имя в чате"
                     ref="display_name"
@@ -89,7 +96,7 @@ export class EditprofilePage extends Form {
                     onBlur=onBlur
                 }}} 
                 {{{Input
-                    value="${data.phone}" 
+                    value="${userData.phone}" 
                     name="phone"
                     label="Телефон"
                     ref="phone"
@@ -104,7 +111,12 @@ export class EditprofilePage extends Form {
                 </form>
             </div>    
         </div>
+      {{else}}
+      <div>loadind...</div>
+      {{/if}}         
     </div>
     `;
   }
 }
+
+export default withStore(EditprofilePage);

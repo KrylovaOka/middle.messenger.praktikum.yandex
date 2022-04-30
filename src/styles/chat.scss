@@ -47,18 +47,27 @@
         border: 1px solid s.$transparent-color;
     }
 }
+.chat-block__action{
+    background-color: s.$background-color;
+    border-top: 1px solid s.$border-color;
+    padding: 1rem 0;
+    p{
+        margin: 0;
+        text-align: right;
+    }
+}
 .chat-block__image {
     display: flex;
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
     border-radius: 50%;
-    min-width: 40px;
+    width: 40px;
     height: 40px;
     margin-right: 1rem;
     background-color: s.$img-bg-color;
     img {
-        width: 50%;
+        border-radius: 50%;
     }
 }
 .stretched {
@@ -71,8 +80,11 @@
     }    
     .message-block__wrapper {
         margin: 0 1.5rem;
-        padding: 3rem 0;
+        padding: 1rem 0;
         flex-basis: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
     }
     .form-block {
         border-top: 1px solid #eaeaea;
@@ -117,4 +129,30 @@
 .form-chats {
     display: flex;
     justify-content: space-between;
+}
+.chat-header{
+    flex-basis: 100%;
+}
+.message-block{
+    background-color: s.$ext-color;
+    border-radius: 1.5rem;
+    box-shadow: 0px 0px 2px s.$shadow-color;
+    margin: 0.5rem 0;
+    padding: 0.5rem 1.5rem;
+    p{
+        margin: 0.3rem 0;
+    }
+    .message-block__author{
+        color: s.$note-color;
+        font-size: 0.8rem;
+    }
+    .message-block__time{
+        color: s.$note-color;
+        font-size: 0.8rem;
+        text-align: right;        
+    }
+}
+.message-block.my-message{
+    background-color: s.$mark-color;
+    margin-left: auto;
 }

@@ -1,63 +1,82 @@
 import Form from '../../components/form';
 import Validator from '../../core/validator';
+import { withStore } from '../../utils';
+import { chats, chat, sendMessage, stopMessage } from '../../services/chat';
 
 import '../../styles/profile.scss';
 import '../../styles/chat.scss';
 
-import chatData from './chats.json'
-
 export class ChatPage extends Form {
-  constructor() {
-    const props = {
-      userImage: "./static/images/no-foto.png",
-      userName: "Ваня",
-      chats: chatData
-    }
-    super(props);
-  }
-
   validator = {
     message: new Validator({rules: {'required': true}})
   }
 
-  activeChat: any = null;
+  constructor(props: P) {
+    super(props);
+    window.store.dispatch(chats);
+  }
+  
+  submitHandler = function(formObject: any){
+    sendMessage(formObject);
+    console.log('action/message', formObject)
+  }; 
 
   protected getStateFromProps(props?: any) {
     super.getStateFromProps(props);
     
     const extState = {
       onClick: (e: InputEvent) => {
-        const element = (e.target as HTMLElement).closest('[id]'); 
+        const element: HTMLElement | null = (e.target as HTMLElement).closest('[id]'); 
 
         if (element === null) {
           return;
         }
 
-        if (this.activeChat !== null) {
-          const oldActiveComponent = this.children[this.activeChat];
-          this.updateChild(oldActiveComponent, {active: false });
-        }
-
-        const newActiveComponent = this.children[element.id];
-        this.updateChild(newActiveComponent, {active: true });
-        this.activeChat = element.id;
+        window.store.dispatch(chat, element.dataset.id);
       },
     }
 
     this.setState(extState);
   }
 
+  componentDidUpdate(oldProps: P, newProps: P): boolean {
+    const store: any = this.state.store;
+
+    if ( store.isLoading && !store.user ) {
+      window.router.go('/login');
+      return false;
+    }
+
+    return true;
+  }
+
+  hide() {
+    super.hide();
+    stopMessage();
+  }
 
   render() {
     return `
     <div class="centered-block__wrapper">
+      {{#if store.state.isLoading}}
         <div class="back-column">
           <div class="user-block">
-            <div class="chat-block__image"><img src="{{userImage}}"></div>
-            <a href="#" class="menu-button"></a>
+            <div class="chat-block__image"><img src="{{store.state.user.avatar}}"></div>
+            {{{Link
+                to="/profile"
+                text="Профиль"
+            }}}
           </div>
-          {{#each chats}}
+          <div class="chat-block__action">
+          {{{Link
+            to="/chat/add"
+            text="Новый чат"
+            class="accent-btn"
+          }}}
+          </div>
+          {{#each store.state.chats}}
             {{{Chat
+                id = id
                 ref=ref
                 name=name
                 forRead=forRead
@@ -67,13 +86,31 @@ export class ChatPage extends Form {
             }}}
           {{/each}}  
         </div>
-        <div class="full-block stretched">
+        {{#if store.state.currentChat}}
+          <div class="full-block stretched">
             <div class="user-block">
-                <div class="chat-block__image"><img src="{{userImage}}"></div>
-                <span class="user-name">{{userName}}</span>
-                <a href="#" class="menu-button"></a>
-            </div>
+                <div class="chat-block__image"><img src="{{store.state.currentChat.avatar}}"></div>
+                <div class="chat-header">
+                  <p class="user-name">{{store.state.currentChat.name}}</p>
+                  <p class="note">
+                  {{#each store.state.currentChat.users}}
+                    {{displayName}}
+                   {{/each}}
+                  </p>
+                </div>  
+                {{{Link
+                  to="/chat/edit"
+                  text="Изменить"
+                }}}
+              </div>
             <div class="message-block__wrapper">
+            {{#each store.state.messages}}
+            <div class="message-block {{#if you}}my-message{{/if}} {{#unless isRead}}new-message{{/unless}}">
+              <p class="message-block__author">{{author.displayName}}</p>
+              <p class="message-block__content">{{text}}</p>
+              <p class="message-block__time">{{created}}</p>    
+            </div>
+            {{/each}}
             </div>  
             <div class="form-block">      
                 <form class="form-chats">
@@ -86,14 +123,24 @@ export class ChatPage extends Form {
                     onFocus=onFocus
                 }}}
                 {{{Button
-                    bClass="back-btn" 
+                    buttonClass="back-btn" 
                     text=""
                     onClick=onSubmit
                 }}}          
                 </form>
             </div>
-        </div        
+          </div>        
+          {{else}}
+          <div class="centered full-block">
+            <p class="text-center note">Выберите чат</p>
+          </div>
+          {{/if}}
+      {{else}}
+      <div>loadind...</div>
+      {{/if}}
     </div>
     `;
   }
 }
+
+export default withStore(ChatPage);
