@@ -92,7 +92,7 @@ export class Router {
     }
 
     go(pathname: string) {
-        this.history.pushState({}, '', pathname);
+        this.history.pushState({name: pathname}, '', pathname);
         this._onRoute(pathname);
     }
 
@@ -107,5 +107,9 @@ export class Router {
     getRoute(pathname: string) {
         const route = this.routes.find(route => route.match(pathname));
         return route || this.routes.find(route => route.match('*'));
+    }
+
+    getHistoryLength(){
+        return this.history.length;
     }
 }
