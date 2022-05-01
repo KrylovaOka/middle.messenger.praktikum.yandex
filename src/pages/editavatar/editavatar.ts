@@ -6,6 +6,8 @@ import { changeAvatar } from '../../services/user';
 import '../../styles/profile.scss';
 
 export class EditavatarPage extends Form {
+  public forAuthorized = true;
+
   validator = {
     avatar: new Validator({rules: {'required': true}}),
   }

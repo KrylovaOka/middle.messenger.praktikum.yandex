@@ -1,7 +1,6 @@
 import './styles/base.scss';
 
 import { registerComponent, Store, Router }  from './core';
-//import { getScreenComponent, Screens } from './utils';
 import { defaultState } from './store';
 import { initApp } from './services/initApp';
 
@@ -16,20 +15,12 @@ import CreatechatPage from './pages/createchat';
 import EditchatPage from './pages/editchat';
 import NotFound from './pages/page404';
 import Page500 from './pages/page500';
-import TempPage from './pages/temp';
 
 import * as components from './components';
 
 Object.values(components).forEach((Component: any) => {
   registerComponent(Component);
 });
-/*
-import * as pages from './pages';
-
-Object.values(pages).forEach((Page: any) => {
-  console.log(Page);
-});
-*/
 
 declare global {
   interface Window {

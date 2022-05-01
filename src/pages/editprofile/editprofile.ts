@@ -6,6 +6,8 @@ import { edit } from '../../services/user';
 import '../../styles/profile.scss';
 
 export class EditprofilePage extends Form {
+  public forAuthorized = true;
+
   validator = {
     login: new Validator({rules: {'required': true, 'min': 3, 'max': 20, 'lettersdigits': true}}),
     password: new Validator({rules: {'required': true, 'min': 8, 'max': 40, 'capitalizexist': true, 'digitexist': true}}),

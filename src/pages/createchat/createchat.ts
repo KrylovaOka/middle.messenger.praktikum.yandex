@@ -6,6 +6,8 @@ import { create } from '../../services/chat';
 import '../../styles/profile.scss';
 
 export class CreatechatPage extends Form {
+  public forAuthorized = true;
+
   validator = {
     title: new Validator({rules: {'required': true}}),
   }

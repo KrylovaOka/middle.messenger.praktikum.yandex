@@ -6,6 +6,8 @@ import { addUser, deleteUser } from '../../services/chat';
 import '../../styles/profile.scss';
 
 export class EditchatPage extends Form {
+  public orAuthorized = true;
+
   validator = {
     login: new Validator({rules: {'required': true}}),
   }
@@ -15,6 +17,8 @@ export class EditchatPage extends Form {
   }; 
 
   componentDidUpdate(oldProps: P, newProps: P): boolean {
+    super.componentDidUpdate(oldProps, newProps);
+    
     const store: any = this.state.store;
 
     if ( store.isLoading && !store.currentChat ) {

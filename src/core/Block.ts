@@ -30,6 +30,7 @@ export default class Block {
   protected refs: {[key: string]: HTMLElement} = {};
 
   public static componentName?: string;
+  public forAuthorized: boolean = false; 
 
   public constructor(props: P = {}) {
     const eventBus = new EventBus<Events>();
@@ -88,6 +89,15 @@ export default class Block {
   }
 
   componentDidUpdate(oldProps: P, newProps: P) {
+    if ( this.forAuthorized ){
+      const store: any = this.state.store;
+
+      if ( store && store.isLoading && !store.user ) {
+        window.router.go('/login');
+        return false;
+      }
+    }
+      
     return true;
   }
 

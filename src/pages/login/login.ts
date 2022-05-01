@@ -1,6 +1,6 @@
 import Form from '../../components/form';
 import Validator from '../../core/validator';
-import { withStore, withRouter } from '../../utils';
+import { withStore } from '../../utils';
 import { login } from '../../services/auth';
 
 export class LoginPage extends Form {
@@ -74,4 +74,4 @@ export class LoginPage extends Form {
   }
 }
 
-export default withRouter(withStore(LoginPage));
+export default withStore(LoginPage);

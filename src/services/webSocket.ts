@@ -31,18 +31,15 @@ export class Socket{
 
     _stopPing = () => {
         clearInterval(this.ping);
-        console.log('stop ping');
     }
 
     _onOpen = () => {
-        console.log('Соединение установлено');
         this._startPing();
         this.getMessages();
     }
 
     _onClose = (event: CloseEvent) => {
         this._stopPing();
-        console.log('stop socket');
     }
 
     _onMessage = (event: MessageEvent) => {
@@ -103,7 +100,6 @@ export class Socket{
     }
 
     sendMessage( content: string ) {
-        console.log(content);
         this.ws?.send(JSON.stringify({
             content: content,
             type: 'message',

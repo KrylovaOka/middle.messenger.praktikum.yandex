@@ -18,11 +18,6 @@ export function withStore(Component: typeof Block) {
       
       window.store.on('changed', (prevState, nextState) => {
         if ( !isEqual(prevState, nextState) ) {
-          console.log(
-              '%cstore updated',
-              'background: #222; color: #bada55',
-              nextState
-          );
           this.setState({
             store: window.store.getState(),
           });

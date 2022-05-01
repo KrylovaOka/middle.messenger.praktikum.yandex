@@ -61,7 +61,6 @@ export class Form extends Block {
           } else {
             this.submitHandler(JSON.stringify(formJsonData));
           }
-          console.log('action/login', formJsonData);
         }  
       },
       onBlur: (e: InputEvent) => {

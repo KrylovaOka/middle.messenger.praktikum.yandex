@@ -1,6 +1,4 @@
 import Block from '../../core/Block';
-import { withStore, withRouter } from '../../utils';
-
 export class Page404 extends Block {
   public static componentName = 'Page404';
 
@@ -10,5 +8,3 @@ export class Page404 extends Block {
     `;
   }
 }
-
-export default withRouter(Page404);

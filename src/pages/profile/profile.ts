@@ -1,10 +1,12 @@
 import Block from '../../core/Block';
-import { withStore, withRouter } from '../../utils';
+import { withStore } from '../../utils';
 import { logout } from '../../services/auth';
 import '../../styles/profile.scss';
 
 export class ProfilePage extends Block {
-  constructor(props: P) {
+    public forAuthorized = true;
+
+    constructor(props: P) {
     super({
         ...props,
         links: [
@@ -21,17 +23,6 @@ export class ProfilePage extends Block {
      });
   }
     
-  componentDidUpdate(oldProps: P, newProps: P): boolean {
-    const store: any = this.state.store;
-
-    if ( store.isLoading && !store.user ) {
-      window.router.go('/login');
-      return false;
-    }
-
-    return true;
-  }
-
   render() {
     return `
     <div class="centered-block__wrapper">
@@ -100,4 +91,4 @@ export class ProfilePage extends Block {
   }
 }
 
-export default withRouter(withStore(ProfilePage));
+export default withStore(ProfilePage);

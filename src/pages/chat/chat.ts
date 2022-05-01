@@ -7,6 +7,8 @@ import '../../styles/profile.scss';
 import '../../styles/chat.scss';
 
 export class ChatPage extends Form {
+  public forAuthorized = true;
+
   validator = {
     message: new Validator({rules: {'required': true}})
   }
@@ -18,7 +20,6 @@ export class ChatPage extends Form {
   
   submitHandler = function(formObject: any){
     sendMessage(formObject);
-    console.log('action/message', formObject)
   }; 
 
   protected getStateFromProps(props?: any) {
@@ -37,17 +38,6 @@ export class ChatPage extends Form {
     }
 
     this.setState(extState);
-  }
-
-  componentDidUpdate(oldProps: P, newProps: P): boolean {
-    const store: any = this.state.store;
-
-    if ( store.isLoading && !store.user ) {
-      window.router.go('/login');
-      return false;
-    }
-
-    return true;
   }
 
   hide() {

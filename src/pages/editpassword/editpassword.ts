@@ -6,6 +6,8 @@ import { changePassword } from '../../services/user';
 import '../../styles/profile.scss';
 
 export class EditpasswordPage extends Form {
+  public forAuthorized = true;
+
   validator = {
     oldPassword: new Validator({rules: {'required': true, 'min': 8, 'max': 40, 'capitalizexist': true, 'digitexist': true}}),
     newPassword: new Validator({rules: {'required': true, 'min': 8, 'max': 40, 'capitalizexist': true, 'digitexist': true}})
