@@ -6,7 +6,7 @@ import { addUser, deleteUser } from '../../services/chat';
 import '../../styles/profile.scss';
 
 export class EditchatPage extends Form {
-  public orAuthorized = true;
+  public forAuthorized = true;
 
   validator = {
     login: new Validator({rules: {'required': true}}),
