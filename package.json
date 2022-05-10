@@ -12,6 +12,11 @@
         "start": "node server.js",
         "test": "mocha"
     },
+    "husky": {
+        "hooks": {
+          "pre-commit": "npm-run-all test lint"
+        }
+    },
     "targets": {
         "default": {
             "engines": {
