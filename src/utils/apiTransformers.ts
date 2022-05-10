@@ -1,6 +1,6 @@
 const findUser = (id: number): User | null  => {
   const users = window.store.getState().currentChat?.users;
-  let result = null;
+  let result: User | null  = null;
 
   if ( users ){
     (users as Array<User>).forEach((value) => {

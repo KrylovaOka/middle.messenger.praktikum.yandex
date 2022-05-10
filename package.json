@@ -6,11 +6,16 @@
         "lint": "eslint . --fix",
         "copy-img": "cp -vR static ./dist/static",
         "init": "npm run copy-img",
-        "dev": "parcel src/index.html --no-cache && npm run init",
+        "dev": "webpack serve --config webpack/webpack.config.js  && npm run init",
         "prebuild": "engine-version",
-        "build": "parcel build src/index.html --no-cache && npm run init",
+        "build": "webpack --config webpack/webpack.config.js && npm run init",
         "start": "node server.js",
         "test": "mocha"
+    },
+    "husky": {
+        "hooks": {
+          "pre-commit": "npm-run-all test lint"
+        }
     },
     "targets": {
         "default": {
@@ -26,30 +31,41 @@
         "node": ">=16.14.0"
     },
     "devDependencies": {
-        "@babel/cli": "^7.17.10",
-        "@babel/core": "^7.17.10",
-        "@babel/preset-env": "^7.17.10",
-        "@babel/preset-typescript": "^7.16.7",
-        "@babel/register": "^7.17.7",
-        "@parcel/resolver-glob": "^2.5.0",
-        "@parcel/transformer-sass": "^2.3.2",
-        "@types/chai": "^4.3.1",
-        "@types/mocha": "^9.1.1",
-        "@typescript-eslint/eslint-plugin": "^5.18.0",
-        "@typescript-eslint/parser": "^5.18.0",
-        "chai": "^4.3.6",
-        "engine-version": "^1.0.2",
-        "eslint": "^8.12.0",
+        "@babel/cli": "7.17.10",
+        "@babel/core": "7.17.10",
+        "@babel/preset-env": "7.17.10",
+        "@babel/preset-typescript": "7.16.7",
+        "@babel/register": "7.17.7",
+        "@types/chai": "4.3.1",
+        "@types/mocha": "9.1.1",
+        "@typescript-eslint/eslint-plugin": "5.18.0",
+        "@typescript-eslint/parser": "5.18.0",
+        "babel-loader": "8.2.5",
+        "chai": "4.3.6",
+        "css-loader": "6.7.1",
+        "dotenv-webpack": "7.1.0",
+        "engine-version": "1.0.2",
+        "eslint": "8.12.0",
         "global-jsdom": "8.4.0",
+        "handlebars-loader": "1.7.1",
+        "html-webpack-plugin": "5.5.0",
+        "husky": "8.0.1",
         "jsdom": "19.0.0",
-        "mocha": "^10.0.0",
-        "parcel": "^2.3.2",
-        "stylelint": "^14.6.1",
-        "typescript": "^4.6.3"
+        "mocha": "10.0.0",
+        "sass": "1.51.0",
+        "sass-loader": "12.6.0",
+        "style-loader": "3.3.1",
+        "stylelint": "14.6.1",
+        "ts-loader": "9.3.0",
+        "typescript": "4.6.3",
+        "url-loader": "4.1.1",
+        "webpack": "5.72.0",
+        "webpack-cli": "4.9.2",
+        "webpack-dev-server": "4.9.0"
     },
     "dependencies": {
-        "express": "^4.17.3",
-        "handlebars": "^4.7.7",
-        "nanoid": "^3.3.2"
+        "express": "4.17.3",
+        "handlebars": "4.7.7",
+        "nanoid": "3.3.2"
     }
 }

@@ -8,7 +8,7 @@ type SocketRequestData = {
 
 export class Socket{
     ws?: WebSocket;
-    private ping?: number;
+    private ping?: any;
     private static __instance: Socket;
 
     constructor(){

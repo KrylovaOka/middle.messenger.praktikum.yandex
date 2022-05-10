@@ -22,12 +22,6 @@ Object.values(components).forEach((Component: any) => {
   registerComponent(Component);
 });
 
-declare global {
-  interface Window {
-    store: Store<AppState>;
-    router: Router;
-  }
-}
 
 document.addEventListener("DOMContentLoaded", () => {
   const store = new Store<AppState>(defaultState);
