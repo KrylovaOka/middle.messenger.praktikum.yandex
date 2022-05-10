@@ -4,4 +4,8 @@
 /.cache
 /dist
 /.gitignore
+/webpack
+/typing
+/test
+babel.config.js
 server.js

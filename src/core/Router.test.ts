@@ -8,17 +8,17 @@ describe('Router test', () => {
     render() {
         return `<div id="login"></div>`;
     }    
-  };
+  }
   class Profile extends Block {
     render() {
         return `<div id="profile"></div>`;
     }  
-  };
+  }
   class Chat extends Block {
     render() {
         return `<div id="chat"></div>`;
     }  
-  };
+  }
   
   let router = new Router();
  

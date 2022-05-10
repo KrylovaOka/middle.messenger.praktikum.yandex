@@ -78,7 +78,7 @@ export class Router {
     }
 
     _onRoute(pathname: string) {
-        let route = this.getRoute(pathname);
+        const route = this.getRoute(pathname);
         if (!route) {
             return;
         }
@@ -92,8 +92,8 @@ export class Router {
     }
 
     go(pathname: string) {
-      //  this.history.pushState({name: pathname}, '', pathname);
-      //  this._onRoute(pathname);
+        this.history.pushState({name: pathname}, '', pathname);
+        this._onRoute(pathname);
     }
 
     back() {

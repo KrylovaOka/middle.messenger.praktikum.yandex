@@ -82,7 +82,7 @@ export class Socket{
         this.ws = new WebSocket(`wss://ya-praktikum.tech/ws/chats/${request.userId}/${request.chatId}/${request.token}`);
         
         this._addEvents();
-    };
+    }
 
     async leave(){
         this.ws?.close();
@@ -90,7 +90,7 @@ export class Socket{
         this._removeEvents();
     }
 
-    getMessages(content: number = 0) {
+    getMessages(content = 0) {
         this.ws?.send(
             JSON.stringify({
               content: `${content}`,
