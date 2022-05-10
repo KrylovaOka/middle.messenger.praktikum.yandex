@@ -92,8 +92,8 @@ export class Router {
     }
 
     go(pathname: string) {
-        //this.history.pushState({name: pathname}, '', pathname);
-        //this._onRoute(pathname);
+      //  this.history.pushState({name: pathname}, '', pathname);
+      //  this._onRoute(pathname);
     }
 
     back() {
