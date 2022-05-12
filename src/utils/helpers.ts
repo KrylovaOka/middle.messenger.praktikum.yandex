@@ -54,7 +54,7 @@ function trim(str: string, symbol: null|string = null){
 }
 
 export function toObject(response: string): ResponseData{
-  let result: P = {};
+  const result: P = {};
   response = trim(response, '{}');
   response.split(',').forEach((value: string) => {
     const data = value.split(':');

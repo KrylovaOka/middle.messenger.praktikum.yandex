@@ -12,16 +12,19 @@
 
 - `npm run dev`
 
-Ссылка на макеты в Figma
 
-https://www.figma.com/file/1iYwUvGag88g6ivMkKlri9/Messenger.Praktikum?node-id=0%3A1
+Для теста можно использовать 
+- логин MisterC
+- пароль String007
 
 Netlify
 
-https://clever-fermi-8cd07f.netlify.app/
+- https://clever-fermi-8cd07f.netlify.app/
 
-Для теста можно использовать 
-логин MisterC
-парооль String007
+Heroku
 
-Тесты реализованы только для роутера, т.к. по договоренности с наставниками их перенесли на 4 спринт.
+- https://krylova-app.herokuapp.com/
+
+Ссылка на макеты в Figma
+
+- https://www.figma.com/file/1iYwUvGag88g6ivMkKlri9/Messenger.Praktikum?node-id=0%3A1

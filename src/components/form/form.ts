@@ -36,7 +36,7 @@ export class Form extends Block {
     const extState = {
       onSubmit: () => {
         const formJsonData: {[key: string]: string} = {};
-        let formData = new FormData();      
+        const formData = new FormData();      
         let isValidForm = true;
         let  files:  FileList | null = null;
 

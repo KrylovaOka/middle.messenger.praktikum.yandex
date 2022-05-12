@@ -82,6 +82,11 @@ declare global {
       unread_count: number;
       last_message: MessageDTO
     };
+
+    export interface Window {
+      store: Store<AppState>;
+      router: Router;
+    }
   }
 
   export {}

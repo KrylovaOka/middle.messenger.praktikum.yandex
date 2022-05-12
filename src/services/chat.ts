@@ -26,7 +26,7 @@ export const chats = async (
 ) => {
   const response = await chatAPI.chats();
 
-  let result: Array<Chat> = []; 
+  const result: Array<Chat> = []; 
 
   if (!apiHasError(response)) {
     (response as Array<ChatDTO>).forEach((value: ChatDTO) => {
@@ -53,7 +53,7 @@ export const create = async (
   
     response = await chatAPI.chats();
 
-    let result: Array<Chat> = []; 
+    const result: Array<Chat> = []; 
   
     if (!apiHasError(response)) {
       (response as Array<ChatDTO>).forEach((value: ChatDTO) => {
@@ -94,7 +94,7 @@ export const create = async (
     }  
 
     let response = await chatAPI.users(id);
-    let users: Array<User> = [];
+    const users: Array<User> = [];
     
     if (!apiHasError(response)) {
       (response as Array<UserDTO>).forEach((value) => {
@@ -182,7 +182,7 @@ export const create = async (
       chatId: currentChat.id
     }; 
 
-    let response = await chatAPI.deleteUser(JSON.stringify(delData));
+    const response = await chatAPI.deleteUser(JSON.stringify(delData));
 
     if (apiHasError(response)) {
       dispatch({ isLoading: true, formError: response.reason });

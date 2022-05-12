@@ -30,7 +30,7 @@ export default class Block {
   protected refs: {[key: string]: HTMLElement} = {};
 
   public static componentName?: string;
-  public forAuthorized: boolean = false; 
+  public forAuthorized = false; 
 
   public constructor(props: P = {}) {
     const eventBus = new EventBus<Events>();
