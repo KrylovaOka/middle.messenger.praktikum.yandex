@@ -1,3 +1,5 @@
+PR Sprint 4 https://github.com/KrylovaOka/middle.messenger.praktikum.yandex/pull/4
+
 Описание
 
 Учебный проект Яндекс.Практикум. 
@@ -23,5 +25,3 @@ https://clever-fermi-8cd07f.netlify.app/
 Для теста можно использовать 
 логин MisterC
 парооль String007
-
-Тесты реализованы только для роутера, т.к. по договоренности с наставниками их перенесли на 4 спринт.
